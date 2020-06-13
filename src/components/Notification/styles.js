@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { lighten } from 'polished';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 export const Container = styled.div`
   position: relative;
@@ -32,7 +33,8 @@ export const NotificationList = styled.div`
   top: calc(100% + 30px);
   background: rgba(0, 0, 0, 0.6);
   border-radius: 4px;
-  padding: 20px;
+  padding: 15px 5px;
+  display: ${props => (props.visible ? 'block' : 'none')};
 
   &::before {
     content: '';
@@ -47,9 +49,13 @@ export const NotificationList = styled.div`
   }
 `;
 
+export const Scroll = styled(PerfectScrollbar)`
+  max-height: 260px;
+  padding: 5px 15px;
+`;
+
 export const Notification = styled.div`
   color: #fff;
-
   & + div {
     margin-top: 15px;
     padding-top: 15px;
@@ -62,8 +68,10 @@ export const Notification = styled.div`
   }
 
   time {
+    display: block;
     font-size: 12px;
     opacity: 0.6;
+    margin-bottom: 5px;
   }
 
   button {
@@ -71,8 +79,20 @@ export const Notification = styled.div`
     border: 0;
     background: none;
     color: ${lighten(0.2, '#7159c1')};
-    padding: 0 5px;
-    margin: 0 5pc;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
   }
+
+  ${props =>
+    props.unread &&
+    css`
+      /**will be the last thing in the component */
+      &::after {
+        content: '';
+        display: inline-block;
+        margin-left: 10px;
+        width: 8px;
+        height: 8px;
+        background: #ff892e;
+        border-radius: 50%;
+      }
+    `}
 `;
